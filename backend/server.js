@@ -29,7 +29,7 @@ const { errorHandler, logger } = await import('./utils/logger.js');
 const app = express();
 
 // CORS configuration with better security
-const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173,https://crickarena-frontend.onrender.com')
   .split(',')
   .map(o => o.trim())
   .filter(Boolean);
