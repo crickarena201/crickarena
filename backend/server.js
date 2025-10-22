@@ -139,38 +139,44 @@ app.use('/api/matches', matchRoutes);
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
-// Use Render's provided port or default to 4000
-const PORT = process.env.PORT || 4000;
-await connectDB(process.env.MONGO_URI);
+// Export the app for Vercel serverless functions
+export default app;
 
-const server = app.listen(PORT, () => console.log(`API on port ${PORT} (CORS: ${allowedOrigins.join(', ')})`));
+// Only start the server if this file is run directly (not imported)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  // Use Render's provided port or default to 4000
+  const PORT = process.env.PORT || 4000;
+  await connectDB(process.env.MONGO_URI);
 
-// Configure server timeouts to prevent hanging requests
-server.timeout = 60000; // 60 seconds timeout
-server.keepAliveTimeout = 65000; // Keep alive timeout
-server.headersTimeout = 66000; // Headers timeout
+  const server = app.listen(PORT, () => console.log(`API on port ${PORT} (CORS: ${allowedOrigins.join(', ')})`));
 
-// Handle graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received. Shutting down gracefully...');
-  server.close(() => {
-    console.log('Server closed.');
-    process.exit(0);
+  // Configure server timeouts to prevent hanging requests
+  server.timeout = 60000; // 60 seconds timeout
+  server.keepAliveTimeout = 65000; // Keep alive timeout
+  server.headersTimeout = 66000; // Headers timeout
+
+  // Handle graceful shutdown
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received. Shutting down gracefully...');
+    server.close(() => {
+      console.log('Server closed.');
+      process.exit(0);
+    });
   });
-});
 
-process.on('SIGINT', () => {
-  console.log('SIGINT received. Shutting down gracefully...');
-  server.close(() => {
-    console.log('Server closed.');
-    process.exit(0);
+  process.on('SIGINT', () => {
+    console.log('SIGINT received. Shutting down gracefully...');
+    server.close(() => {
+      console.log('Server closed.');
+      process.exit(0);
+    });
   });
-});
 
-// Periodic status sync (every 60s)
-try {
-  const { syncTournamentAndMatches } = await import('./utils/statusSync.js');
-  setInterval(() => {
-    syncTournamentAndMatches().catch(() => {});
-  }, 60 * 1000);
-} catch (_) {}
+  // Periodic status sync (every 60s)
+  try {
+    const { syncTournamentAndMatches } = await import('./utils/statusSync.js');
+    setInterval(() => {
+      syncTournamentAndMatches().catch(() => {});
+    }, 60 * 1000);
+  } catch (_) {}
+}
