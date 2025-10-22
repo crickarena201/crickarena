@@ -135,10 +135,11 @@ app.use('/api/matches', matchRoutes);
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
+// Use Render's provided port or default to 4000
 const PORT = process.env.PORT || 4000;
 await connectDB(process.env.MONGO_URI);
 
-const server = app.listen(PORT, () => console.log(`API on :${PORT} (CORS: ${allowedOrigins.join(', ')})`));
+const server = app.listen(PORT, () => console.log(`API on port ${PORT} (CORS: ${allowedOrigins.join(', ')})`));
 
 // Configure server timeouts to prevent hanging requests
 server.timeout = 60000; // 60 seconds timeout
