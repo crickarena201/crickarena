@@ -31,8 +31,9 @@ services:
     healthCheckPath: /health
 
   # Frontend Static Site
-  - type: static_site
+  - type: web
     name: crickarena-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
