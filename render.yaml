@@ -26,14 +26,15 @@ services:
       - key: RAZORPAY_KEY_SECRET
         sync: false
 
-  - type: web
-    name: crickarena-frontend
-    env: static
+static_sites:
+  - name: crickarena-frontend
+    type: static
+    rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE
-        sync: false
+        value: https://crickarena.vercel.app/api
     routes:
       - type: rewrite
         source: /*
