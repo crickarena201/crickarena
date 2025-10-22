@@ -1,6 +1,6 @@
 import app from './server.js';
 
-export default function (req, res) {
+export default async function (req, res) {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     res.status(200).end();

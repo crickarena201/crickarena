@@ -2,11 +2,35 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/health.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/test.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/db-test.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/test",
+      "dest": "api/test.js"
+    },
+    {
+      "src": "/api/db-test",
+      "dest": "api/db-test.js"
+    },
+    {
+      "src": "/health",
+      "dest": "api/health.js"
+    },
     {
       "src": "/(.*)",
       "dest": "api/index.js"
