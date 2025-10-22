@@ -3,7 +3,6 @@ services:
   - type: web
     name: crickarena-backend
     runtime: node
-    plan: free
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
@@ -34,7 +33,6 @@ services:
   - type: web
     name: crickarena-frontend
     runtime: static
-    plan: starter
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
