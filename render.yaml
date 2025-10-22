@@ -28,7 +28,8 @@ services:
 
 static_sites:
   - name: crickarena-frontend
-    type: static
+    type: static_site
+    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
