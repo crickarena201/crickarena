@@ -34,7 +34,7 @@ static_sites:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE
-        value: https://crickarena.vercel.app/api
+        value: https://crickarena-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*

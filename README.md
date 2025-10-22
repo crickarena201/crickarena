@@ -155,6 +155,69 @@ Base URL: `http://localhost:4000/api`
 - In production, use HTTPS so `secure` cookies work with `SameSite=None`.
 - Ensure MongoDB is running and `MONGO_URI` is reachable.
 
+## Deployment to Render
+
+### Prerequisites
+1. Create accounts on [Render](https://render.com/) and [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Create a MongoDB cluster and get your connection string
+3. Set up Firebase project and get Admin SDK credentials
+4. Set up Razorpay account if payment features are needed
+
+### Environment Variables
+You'll need to configure these environment variables in Render:
+
+#### Backend Service (`crickarena-backend`)
+- `MONGO_URI` - Your MongoDB Atlas connection string
+- `CORS_ORIGIN` - `https://crickarena-frontend.onrender.com`
+- `FIREBASE_PROJECT_ID` - Your Firebase project ID
+- `FIREBASE_CLIENT_EMAIL` - Your Firebase service account email
+- `FIREBASE_PRIVATE_KEY` - Your Firebase private key (properly formatted with newlines)
+- `RAZORPAY_KEY_ID` - Your Razorpay key ID (if using payments)
+- `RAZORPAY_KEY_SECRET` - Your Razorpay key secret (if using payments)
+
+#### Frontend Service (`crickarena-frontend`)
+- `VITE_API_BASE` - `https://crickarena-backend.onrender.com/api`
+- Firebase configuration variables (same as in development)
+
+### Deploy Using Blueprint
+1. Fork this repository to your GitHub account
+2. Log in to Render and go to Dashboard
+3. Click "New+" and select "Blueprint"
+4. Connect your GitHub account and select your forked repository
+5. Review the services and click "Apply"
+6. After deployment starts, go to the backend service settings and add all required environment variables
+7. Once the backend is deployed, copy its URL and update the `CORS_ORIGIN` variable in the frontend service
+8. Redeploy both services
+
+### Manual Deployment (Alternative)
+1. **Deploy Backend**:
+   - In Render Dashboard, click "New+" and select "Web Service"
+   - Connect your GitHub repository
+   - Set:
+     - Name: `crickarena-backend`
+     - Root Directory: `backend`
+     - Build Command: `npm install`
+     - Start Command: `npm start`
+   - Add environment variables as listed above
+   - Click "Create Web Service"
+
+2. **Deploy Frontend**:
+   - In Render Dashboard, click "New+" and select "Static Site"
+   - Connect your GitHub repository
+   - Set:
+     - Name: `crickarena-frontend`
+     - Root Directory: `frontend`
+     - Build Command: `npm install && npm run build`
+     - Publish Directory: `dist`
+   - Add environment variables as listed above
+   - Click "Create Static Site"
+
+### Post-Deployment Steps
+1. After frontend deployment, copy the frontend URL (`https://crickarena-frontend.onrender.com`)
+2. Go to backend service settings in Render
+3. Update `CORS_ORIGIN` environment variable with the frontend URL
+4. Redeploy the backend service
+
 ## Scripts
 - Backend: `npm run dev` (watch), `npm start`
 - Frontend: `npm run dev`, `npm run build`, `npm run preview`
