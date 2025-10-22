@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Response</title>
+</head>
+<body>
+    <h1>Test API Response</h1>
+    <button onclick="testApi()">Test API</button>
+    <div id="output"></div>
+
+    <script>
+        async function testApi() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<p>Testing API...</p>';
+            
+            try {
+                // This will fail without proper authentication
+                const response = await fetch('http://localhost:4000/api/admin/clubs');
+                const data = await response.json();
+                output.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                output.innerHTML = '<p>Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
