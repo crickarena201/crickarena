@@ -1,16 +1,19 @@
 services:
+  # Backend API Service
   - type: web
     name: crickarena-backend
-    env: node
-    plan: free
+    runtime: node
     rootDir: backend
+    plan: free
+    region: oregon
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000
+        value: 4000
+      # Add these environment variables with your actual values
       - key: MONGO_URI
         sync: false
       - key: CORS_ORIGIN
@@ -25,14 +28,16 @@ services:
         sync: false
       - key: RAZORPAY_KEY_SECRET
         sync: false
+    healthCheckPath: /health
 
-static_sites:
-  - name: crickarena-frontend
-    type: static_site
-    plan: free
+  # Frontend Static Site
+  - type: static_site
+    name: crickarena-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
+    plan: free
+    region: oregon
     envVars:
       - key: VITE_API_BASE
         value: https://crickarena-backend.onrender.com/api
