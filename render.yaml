@@ -34,7 +34,7 @@ services:
   - type: web
     name: crickarena-frontend
     runtime: static
-    plan: free
+    plan: starter
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
