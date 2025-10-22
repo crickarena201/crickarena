@@ -1,6 +1,11 @@
-import app from '../server.js';
+import handler from '../vercel-adapter.js';
 
-export default async function handler(request, response) {
-  // Convert Vercel's request/response to Express's request/response
-  return app(request, response);
+export default function (req, res) {
+  return handler(req, res);
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

@@ -125,10 +125,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/clubs', clubRoutes);
 // Mount admin routes BEFORE tournament routes to avoid conflicts
 app.use('/api/admin', adminRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/clubs', clubRoutes);
-app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/players', playerRoutes);
