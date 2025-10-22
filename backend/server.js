@@ -120,6 +120,18 @@ app.use((req, res, next) => {
 });
 
 app.get('/health', (_, res) => res.json({ ok: true }));
+
+// Add a root route that explains this is an API server
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'CrickArena API Server', 
+    version: '1.0.0',
+    documentation: 'Please refer to the API documentation for available endpoints',
+    health: '/health',
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/clubs', clubRoutes);
